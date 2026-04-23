@@ -307,7 +307,9 @@ export default function ChatUI() {
 
   useEffect(() => {
     const fetchThreads = async () => {
-      const response = await fetch("http://localhost:8000/threads");
+      const response = await fetch(
+        "https://chatbot-langgraph.onrender.com/threads",
+      );
       const data = await response.json();
       setThreads(data);
     };
@@ -332,22 +334,28 @@ export default function ChatUI() {
   const handleLoadConvo = async (id) => {
     setThreadId(id);
     setSidebarOpen(false);
-    const response = await fetch("http://localhost:8000/chat/load", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: "", threadId: id }),
-    });
+    const response = await fetch(
+      "https://chatbot-langgraph.onrender.com/chat/load",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: "", threadId: id }),
+      },
+    );
     const r = await response.json();
     console.log(r);
     setHistory(r.messages);
   };
 
   const onSubmit = async (data) => {
-    const response = await fetch("http://localhost:8000/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: data.messages, threadId }),
-    });
+    const response = await fetch(
+      "https://chatbot-langgraph.onrender.com/chat",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: data.messages, threadId }),
+      },
+    );
 
     const decoder = new TextDecoder();
     const reader = response.body.getReader();
@@ -377,7 +385,6 @@ export default function ChatUI() {
 
   const submit = async (data) => {
     if (!data.messages?.trim()) return;
-   
 
     setHistory((h) => [...h, { role: "user", text: data.messages }]);
     setLoading(true);
