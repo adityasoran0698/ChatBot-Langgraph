@@ -78,8 +78,8 @@ workflow = graph.compile(checkpointer=checkpointer)
 
 
 @app.post("/chat")
-async def chat(req: ChatRequest):
-    async def generate():
+def chat(req: ChatRequest):
+    def generate():
         config = {"configurable": {"thread_id": req.threadId}}
 
         stream_response = workflow.stream(
@@ -91,16 +91,7 @@ async def chat(req: ChatRequest):
             if isinstance(message, AIMessageChunk) and message.content:
                 yield message.content
 
-    return StreamingResponse(
-        generate(),
-        media_type="text/plain",
-        headers={
-            "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",
-            "Transfer-Encoding": "chunked",
-            "Connection": "keep-alive",  
-        },
-    )
+    return StreamingResponse(generate(), media_type="text/plain")
 
 
 @app.post("/chat/load")
