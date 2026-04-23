@@ -81,7 +81,6 @@ workflow = graph.compile(checkpointer=checkpointer)
 def chat(req: ChatRequest):
     def generate():
         config = {"configurable": {"thread_id": req.threadId}}
-
         stream_response = workflow.stream(
             {"messages": [HumanMessage(content=req.messages)]},
             config=config,
@@ -91,7 +90,15 @@ def chat(req: ChatRequest):
             if isinstance(message, AIMessageChunk) and message.content:
                 yield message.content
 
-    return StreamingResponse(generate(), media_type="text/plain")
+    return StreamingResponse(
+        generate(),
+        media_type="text/plain",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",  
+            "Transfer-Encoding": "chunked",
+        },
+    )
 
 
 @app.post("/chat/load")
