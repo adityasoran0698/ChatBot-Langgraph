@@ -347,13 +347,16 @@ export default function ChatUI() {
     setHistory(r.messages);
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, currentThreadId) => {
     const response = await fetch(
       "https://chatbot-langgraph.onrender.com/chat",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: data.messages, threadId }),
+        body: JSON.stringify({
+          messages: data.messages,
+          threadId: currentThreadId,
+        }),
       },
     );
 
@@ -381,15 +384,28 @@ export default function ChatUI() {
     }
     reset({ messages: "" });
     setLoading(false);
+    const res = await fetch("https://chatbot-langgraph.onrender.com/threads");
+    const updatedThreads = await res.json();
+    setThreads(updatedThreads);
   };
 
   const submit = async (data) => {
     if (!data.messages?.trim()) return;
 
+    // ✅ Fix 1: Auto-create thread if none exists
+    let currentThreadId = threadId;
+    if (!currentThreadId) {
+      currentThreadId = uuidv4();
+      setThreadId(currentThreadId);
+      setThreads((prev) =>
+        prev.includes(currentThreadId) ? prev : [...prev, currentThreadId],
+      );
+    }
+
     setHistory((h) => [...h, { role: "user", text: data.messages }]);
     setLoading(true);
     reset();
-    await onSubmit(data);
+    await onSubmit(data, currentThreadId); // ✅ Pass threadId directly
   };
 
   const handleNew = () => {
