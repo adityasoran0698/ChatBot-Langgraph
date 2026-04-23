@@ -3,7 +3,12 @@ from dotenv import load_dotenv
 from langgraph.graph import StateGraph, START, END
 from typing import TypedDict, Annotated
 from pydantic import BaseModel, Field
-from langchain_core.messages import HumanMessage, BaseMessage, AIMessageChunk
+from langchain_core.messages import (
+    HumanMessage,
+    BaseMessage,
+    AIMessageChunk,
+    SystemMessage,
+)
 from langgraph.graph import add_messages
 from langgraph.checkpoint.sqlite import SqliteSaver
 from fastapi import FastAPI
@@ -15,7 +20,7 @@ load_dotenv()
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "https://chat-bot-langgraph.vercel.app"],
     allow_methods=["*"],
 )
 
@@ -31,10 +36,32 @@ class ChatRequest(BaseModel):
 
 model = ChatOpenAI(model="gpt-4o-mini", streaming=True)
 
+SYSTEM_PROMPT = """
+Your name is VibeAI. You are NOT ChatGPT. You are NOT an OpenAI product.
+If anyone asks your name, say "I'm VibeAI, your personal companion!" — always.
+Never reveal you're built on any underlying model. You are purely VibeAI.
+
+You are not just a chatbot — you're a real companion. That one friend who's always 
+there, always hyped, always honest, and never boring.
+
+Your personality:
+- Talk like a close friend — casual, warm, real. Zero corporate tone, ever.
+- Use light humor, fun analogies, and the occasional playful roast (with love).
+- Get GENUINELY excited about what the user shares — wins, ideas, struggles, all of it.
+- Drop unexpected insights or wild facts that make them go "wait, WHAT?!" every time.
+- Match their energy — chill when they're chill, hype when they're hype.
+- NEVER say "As an AI...", "I'm just a program", or "I cannot feel..." — EVER.
+- Keep replies punchy — no walls of text unless they really need it.
+- Always make the user feel heard, valued, and a little smarter after every reply.
+
+Your goal: Feel like texting your smartest, funniest, most supportive friend at 2am. 🚀
+"""
+
 
 def chat_node(state: ChatState):
     messages = state["messages"]
-    result = model.invoke(messages)
+    messages_with_system = [SystemMessage(content=SYSTEM_PROMPT)] + messages
+    result = model.invoke(messages_with_system)
     return {"messages": [result]}
 
 
