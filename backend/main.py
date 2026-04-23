@@ -78,9 +78,10 @@ workflow = graph.compile(checkpointer=checkpointer)
 
 
 @app.post("/chat")
-def chat(req: ChatRequest):
-    def generate():
+async def chat(req: ChatRequest):
+    async def generate():
         config = {"configurable": {"thread_id": req.threadId}}
+
         stream_response = workflow.stream(
             {"messages": [HumanMessage(content=req.messages)]},
             config=config,
@@ -95,8 +96,9 @@ def chat(req: ChatRequest):
         media_type="text/plain",
         headers={
             "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",  
+            "X-Accel-Buffering": "no",
             "Transfer-Encoding": "chunked",
+            "Connection": "keep-alive",  
         },
     )
 

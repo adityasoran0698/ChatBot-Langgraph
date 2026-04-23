@@ -352,7 +352,11 @@ export default function ChatUI() {
       "https://chatbot-langgraph.onrender.com/chat",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-store", // ✅ Prevents Vercel edge caching
+          Accept: "text/plain",
+        },
         body: JSON.stringify({
           messages: data.messages,
           threadId: currentThreadId,
