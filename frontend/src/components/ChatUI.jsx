@@ -386,6 +386,7 @@ export default function ChatUI() {
     setLoading(false);
     const res = await fetch("https://chatbot-langgraph.onrender.com/threads");
     const updatedThreads = await res.json();
+    F;
     setThreads(updatedThreads);
   };
 
@@ -895,7 +896,7 @@ export default function ChatUI() {
                 letterSpacing: "0.05em",
               }}
             >
-              ARIA
+              VibeAI
             </div>
             <div
               style={{
@@ -1004,7 +1005,7 @@ export default function ChatUI() {
                     fontFamily: "'Playfair Display',serif",
                   }}
                 >
-                  Hello, I'm{" "}
+                  Hello, I'm{"  "}
                   <span
                     style={{
                       background:
@@ -1014,7 +1015,8 @@ export default function ChatUI() {
                       backgroundClip: "text",
                     }}
                   >
-                    ARIA
+                    
+                    A . R . I . A
                   </span>
                 </h1>
                 <p

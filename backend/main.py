@@ -77,6 +77,11 @@ graph.add_edge("chat_node", END)
 workflow = graph.compile(checkpointer=checkpointer)
 
 
+@app.get("/")
+def root():
+    return {"message": "Welcome to the VibeAI backend!"}
+
+
 @app.post("/chat")
 def chat(req: ChatRequest):
     def generate():
