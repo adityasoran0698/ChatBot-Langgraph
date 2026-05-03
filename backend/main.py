@@ -82,6 +82,18 @@ def root():
     return {"message": "Welcome to the VibeAI backend!"}
 
 
+@app.delete("/clear-memory")
+def clear_memory():
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM checkpoints")
+    cursor.execute("DELETE FROM writes")
+
+    conn.commit()
+
+    return {"message": "All chat memory cleared"}
+
+
 @app.post("/chat")
 def chat(req: ChatRequest):
     def generate():
