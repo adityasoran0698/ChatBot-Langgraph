@@ -82,7 +82,7 @@ def root():
     return {"message": "Welcome to the VibeAI backend!"}
 
 
-@app.delete("/clear-memory")
+@app.get("/clear-memory")
 def clear_memory():
     cursor = conn.cursor()
 
