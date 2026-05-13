@@ -16,6 +16,7 @@ from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 import os
+import re
 
 load_dotenv()
 os.environ["LANGCHAIN_PROJECT"] = "VibeAI"
@@ -26,6 +27,7 @@ app.add_middleware(
         "http://localhost:5173",
         "https://chat-bot-langgraph.vercel.app",
     ],
+    allow_origin_regex=r"https://chat-bot-langgraph.*\.vercel\.app",  # ✅ covers all previews
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
