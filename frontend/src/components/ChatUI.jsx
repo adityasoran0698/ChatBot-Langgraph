@@ -308,7 +308,7 @@ export default function ChatUI() {
   useEffect(() => {
     const fetchThreads = async () => {
       const response = await fetch(
-        "https://chatbot-langgraph.onrender.com/threads",
+        "https://chat-bot-langgraph-9ayv-lmll66ii7-aditya-sorans-projects.vercel.app/threads",
       );
       const data = await response.json();
       setThreads(data);
@@ -335,7 +335,7 @@ export default function ChatUI() {
     setThreadId(id);
     setSidebarOpen(false);
     const response = await fetch(
-      "https://chatbot-langgraph.onrender.com/chat/load",
+      "https://chat-bot-langgraph-9ayv-lmll66ii7-aditya-sorans-projects.vercel.app/chat/load",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -349,7 +349,7 @@ export default function ChatUI() {
 
   const onSubmit = async (data, currentThreadId) => {
     const response = await fetch(
-      "https://chatbot-langgraph.onrender.com/chat",
+      "https://chat-bot-langgraph-9ayv-lmll66ii7-aditya-sorans-projects.vercel.app/chat",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -384,7 +384,9 @@ export default function ChatUI() {
     }
     reset({ messages: "" });
     setLoading(false);
-    const res = await fetch("https://chatbot-langgraph.onrender.com/threads");
+    const res = await fetch(
+      "https://chat-bot-langgraph-9ayv-lmll66ii7-aditya-sorans-projects.vercel.app/threads",
+    );
     const updatedThreads = await res.json();
     F;
     setThreads(updatedThreads);
@@ -1015,7 +1017,6 @@ export default function ChatUI() {
                       backgroundClip: "text",
                     }}
                   >
-                    
                     A . R . I . A
                   </span>
                 </h1>
