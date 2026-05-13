@@ -67,7 +67,9 @@ def chat_node(state: ChatState):
     return {"messages": [result]}
 
 
-conn = sqlite3.connect(database="chatbot.db", check_same_thread=False)
+DB_PATH = "/tmp/chatbot.db"
+
+conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 checkpointer = SqliteSaver(conn=conn)
 graph = StateGraph(ChatState)
 
