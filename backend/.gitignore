@@ -1,0 +1,71 @@
+# ======================
+# ENV FILES (IMPORTANT)
+# ======================
+.env
+.env.local
+.env.*.local
+
+# ======================
+# NODE (Frontend + Backend)
+# ======================
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build folders
+dist/
+build/
+**/dist/
+**/build/
+
+# Vite specific
+.vite/
+
+# ======================
+# PYTHON (LangGraph backend)
+# ======================
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# ======================
+# IDE / EDITOR
+# ======================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ======================
+# OS FILES
+# ======================
+.DS_Store
+Thumbs.db
+
+# ======================
+# LOG FILES
+# ======================
+logs/
+*.log
+
+# ======================
+# TEST / COVERAGE
+# ======================
+coverage/
+*.lcov
+
+# ======================
+# MISC
+# ======================
+*.tmp
+*.temp
+.cache/
