@@ -15,8 +15,10 @@ from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
+import os
 
 load_dotenv()
+os.environ["LANGCHAIN_PROJECT"] = "VibeAI"
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -113,7 +115,10 @@ def chat(req: ChatRequest):
 
 @app.post("/chat/load")
 def load_chat(req: ChatRequest):
-    config = {"configurable": {"thread_id": req.threadId}}
+    config = {
+        "configurable": {"thread_id": req.threadId},
+        "metadata": {"thread_id": req.threadId, "run_name": "chat_turn"},
+    }
 
     state = workflow.get_state(config=config)
 
