@@ -308,7 +308,7 @@ export default function ChatUI() {
   useEffect(() => {
     const fetchThreads = async () => {
       const response = await fetch(
-        "https://chat-bot-langgraph-9ayv.vercel.app//threads",
+        "https://chat-bot-langgraph-9ayv.vercel.app/threads",
       );
       const data = await response.json();
       setThreads(data);
@@ -335,7 +335,7 @@ export default function ChatUI() {
     setThreadId(id);
     setSidebarOpen(false);
     const response = await fetch(
-      "https://chat-bot-langgraph-9ayv.vercel.app//chat/load",
+      "https://chat-bot-langgraph-9ayv.vercel.app/chat/load",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -349,7 +349,7 @@ export default function ChatUI() {
 
   const onSubmit = async (data, currentThreadId) => {
     const response = await fetch(
-      "https://chat-bot-langgraph-9ayv.vercel.app//chat",
+      "https://chat-bot-langgraph-9ayv.vercel.app/chat",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -385,7 +385,7 @@ export default function ChatUI() {
     reset({ messages: "" });
     setLoading(false);
     const res = await fetch(
-      "https://chat-bot-langgraph-9ayv.vercel.app//threads",
+      "https://chat-bot-langgraph-9ayv.vercel.app/threads",
     );
     const updatedThreads = await res.json();
     F;
